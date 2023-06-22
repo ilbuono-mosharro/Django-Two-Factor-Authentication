@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags %}class="alert alert-{{ message.tags }} alert-dismissible fade show"{% endif %}
+             role="alert">
+            {{ message }}
+            <button type="button" class="btn-close not-focusable" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+{% if expired %}
+<a href="{% url 'accounts:generate_new_code' %}" class="btn btn-success">Generate new code</a>
+{% endif %}
+<h4>You have two minutes to enter the code</h4>
+<p class="timer"></p>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-primary">Verify</button>
+</form>
+{% endblock %}
